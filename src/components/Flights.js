@@ -21,7 +21,6 @@ function Flights(props) {
             <table>
                 <thead>
                     <tr>
-                        <th>Quote ID</th>
                         <th>Min Price</th>
                         <th>Direct</th>
                         <th>Origin Airport</th>
@@ -31,8 +30,6 @@ function Flights(props) {
                 <tbody>
                     {props.flights.map(flight => {
                         return (<tr id={flight.QuoteId}>
-                            <th>{flight.QuoteId}</th>
-                            {/* include currencies in price column */}
                             <th>{flight.MinPrice}</th> 
                             <th>{directDict[flight.Direct]}</th>
                             <th>{codesDict[flight.OutboundLeg.OriginId]}</th>
