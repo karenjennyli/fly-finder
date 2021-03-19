@@ -26,22 +26,17 @@ function AirportInfo() {
             let originId = responseOrigin.Places[0].PlaceId
             // loop through responseOrigin.Places array until get good length
             console.log(originId)
-            if (originId.length !== 7) {
-                return
-            }
 
             let responseDest = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?" + new URLSearchParams({query: destQuery}), reqOptions)
             responseDest = await responseDest.json()
             let destId = responseDest.Places[0].PlaceId
             console.log(destId)
-            if (destId.length !== 7) {
-                return
-            }
-
-            // let response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/USD/en-US/" + "SFO-sky" + "/LAX-sky/2021-03-20?inboundpartialdate=2021-03-25", reqOptions)
-            let response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/USD/en-US/" + originId + "/" + destId + "/2021-03-20?inboundpartialdate=2021-03-25", reqOptions)
+            
+            var response
+            response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/USD/en-US/" + originId + "/" + destId + "/2021-03-20?inboundpartialdate=2021-03-25", reqOptions)
             response = await response.json()
             console.log(response)
+            if (response.Quotes === undefined) return
             setFlights(response.Quotes)
             setPlaces(response.Places)
         }

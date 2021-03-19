@@ -4,6 +4,15 @@ import './Flights.css';
 function Flights(props) { 
     // determine airport name based on place id
 
+    var places = props.places // array of places
+    var placesDict = {}
+    console.log(places)
+    for (let i = 0; i < places.length; i++) {
+        let currPlace = places[i]
+        placesDict[currPlace.PlaceId] = currPlace.IataCode
+    }
+    console.log(placesDict)
+
     return(
         <div className="flights">
             <table>
