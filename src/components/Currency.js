@@ -1,5 +1,5 @@
 import React from 'react';
-import './Flights.css';
+// import './Flights.css';
 
 function Flights(props) { 
     var places = props.places // array of places
