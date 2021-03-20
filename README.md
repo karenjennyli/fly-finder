@@ -1,7 +1,7 @@
 # Fly Finder
 
 Find flights using Skyscanner API. Allows user to view their flight options between two destinations for specific dates and select currency preference.
-Access here: fly-finder.herokuapp.com/
+Access here: http://fly-finder.herokuapp.com/
 
 ## Build app
 Have the latest version of node installed.
