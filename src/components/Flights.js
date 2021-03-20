@@ -11,6 +11,12 @@ function Flights(props) {
         namesDict[currPlace.PlaceId] = currPlace.Name
     }
 
+    var carriers = props.carriers
+    var carriersDict = {}
+    for (let i = 0; i < carriers.length; i++) {
+        carriersDict[carriers[i].CarrierId] = carriers[i].Name
+    }
+
     var directDict = {}
     directDict[true] = "Yes"
     directDict[false] = "No"
@@ -49,11 +55,11 @@ function Flights(props) {
                 <tbody>
                     {props.flights.map(flight => {
                         return (<tr id={flight.QuoteId}>
-                            <th>{pricesDict[flight.MinPrice]} {flight.MinPrice}</th> 
-                            <th>{namesDict[flight.OutboundLeg.OriginId]} ({codesDict[flight.OutboundLeg.OriginId]})</th>
-                            <th>{namesDict[flight.OutboundLeg.DestinationId]} ({codesDict[flight.OutboundLeg.DestinationId]})</th>
-                            <th>Carrier</th>
-                            <th>{directDict[flight.Direct]}</th>
+                            <td>{pricesDict[flight.MinPrice]} {flight.MinPrice}</td> 
+                            <td>{namesDict[flight.OutboundLeg.OriginId]} ({codesDict[flight.OutboundLeg.OriginId]})</td>
+                            <td>{namesDict[flight.OutboundLeg.DestinationId]} ({codesDict[flight.OutboundLeg.DestinationId]})</td>
+                            <td>{carriersDict[flight.OutboundLeg.CarrierIds[0]]}</td>
+                            <td>{directDict[flight.Direct]}</td>
                         </tr>);
                     })}
                 </tbody>

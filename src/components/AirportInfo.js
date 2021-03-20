@@ -12,6 +12,7 @@ function AirportInfo() {
     const [outDate, setOutDate] = useState("")
     const [currencies, setCurrencies] = useState([])
     const [currCurrency, setCurrCurrency] = useState("")
+    const [carriers, setCarriers] = useState([])
 
     if (currencies.length === 0) {
         async function fetchCurrencies() {
@@ -78,6 +79,7 @@ function AirportInfo() {
             }
             setFlights(response.Quotes)
             setPlaces(response.Places)
+            setCarriers(response.Carriers)
         }
         
         fetchMyAPI()
@@ -85,7 +87,6 @@ function AirportInfo() {
 
     return(
         <div className="airportinfo">
-            <p>Prices with ☆ are the lowest.</p>
             <form onSubmit={handleSubmit}>
                 <table>
                     <tr>
@@ -117,7 +118,8 @@ function AirportInfo() {
                 </table>
                 <button className="search">Search</button>
            </form>
-           <Flights flights={flights} places={places} currencies={currencies} currCurrency={currCurrency}></Flights>
+           <p>Prices with ☆ are the lowest.</p>
+           <Flights flights={flights} places={places} carriers={carriers} currencies={currencies} currCurrency={currCurrency}></Flights>
         </div>
     )
 }
