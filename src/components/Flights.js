@@ -10,30 +10,50 @@ function Flights(props) {
         codesDict[currPlace.PlaceId] = currPlace.IataCode
         namesDict[currPlace.PlaceId] = currPlace.Name
     }
-    console.log(codesDict)
 
     var directDict = {}
     directDict[true] = "Yes"
     directDict[false] = "No"
+
+    var currencies = props.currencies
+    var symbolsDict = {}
+    for (let i = 0; i < currencies.length; i++) {
+        symbolsDict[currencies[i].Code] = currencies[i].Symbol
+    }
+
+    var flights = props.flights
+    if (flights.length > 0) var MinPrice = flights[0].MinPrice
+    else var MinPrice = 0
+    for (let i = 0; i < flights.length; i++) {
+        if (flights[i].MinPrice < MinPrice) MinPrice = flights[i].MinPrice
+    }
+
+    var pricesDict = {}
+    for (let i = 0; i < flights.length; i++) {
+        pricesDict[flights[i].MinPrice] = ""
+    }
+    pricesDict[MinPrice] = "☆"
 
     return(
         <div className="flights">
             <table>
                 <thead>
                     <tr>
-                        <th>Min Price</th>
-                        <th>Direct</th>
+                        <th>Price ({symbolsDict[props.currCurrency]})</th>
                         <th>Origin Airport</th>
                         <th>Destination Airport</th>
+                        <th>Carrier</th>
+                        <th>Direct</th>
                     </tr>
                 </thead>
                 <tbody>
                     {props.flights.map(flight => {
                         return (<tr id={flight.QuoteId}>
-                            <th>{flight.MinPrice}</th> 
+                            <th>{pricesDict[flight.MinPrice]} {flight.MinPrice}</th> 
+                            <th>{namesDict[flight.OutboundLeg.OriginId]} ({codesDict[flight.OutboundLeg.OriginId]})</th>
+                            <th>{namesDict[flight.OutboundLeg.DestinationId]} ({codesDict[flight.OutboundLeg.DestinationId]})</th>
+                            <th>Carrier</th>
                             <th>{directDict[flight.Direct]}</th>
-                            <th>{codesDict[flight.OutboundLeg.OriginId]}</th>
-                            <th>{codesDict[flight.OutboundLeg.DestinationId]}</th>
                         </tr>);
                     })}
                 </tbody>

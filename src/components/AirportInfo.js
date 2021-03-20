@@ -10,8 +10,8 @@ function AirportInfo() {
     const [destQuery, setDestQuery] = useState("")
     const [inDate, setInDate] = useState("")
     const [outDate, setOutDate] = useState("")
-    const [showFlights, setShowFlights] = useState(false)
     const [currencies, setCurrencies] = useState([])
+    const [currCurrency, setCurrCurrency] = useState("")
 
     if (currencies.length === 0) {
         async function fetchCurrencies() {
@@ -66,6 +66,7 @@ function AirportInfo() {
             let s = document.getElementById("currencies")
             console.log(s)
             let value = s.options[s.selectedIndex].text
+            setCurrCurrency(value)
             
             var response
             // response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/USD/en-US/" + originId + "/" + destId + "/" + inDate + "?inboundpartialdate=2021-03-25", reqOptions)
@@ -77,47 +78,46 @@ function AirportInfo() {
             }
             setFlights(response.Quotes)
             setPlaces(response.Places)
-
-
-            // response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/currencies", reqOptions)
-            // response = await response.json()
-            // for (let i = 0; i < currencies.length; i++) {
-            //     console.log(currencies[i].Code)
-            // }
-
-            // setCurrencies(response.Currencies)
         }
         
         fetchMyAPI()
-        setShowFlights(true)
-        // setQuery("")
-        // setDestQuery("")
-        // setInDate("")
-        // setOutDate("")
     }
 
     return(
         <div className="airportinfo">
-           <form onSubmit={handleSubmit}>
-               <table>
+            <p>Prices with ☆ are the lowest.</p>
+            <form onSubmit={handleSubmit}>
+                <table>
                     <tr>
-                        <label htmlFor="queryInput">Origin:</label>
-                        <input id="queryInput" value={query} onChange={e => setQuery(e.target.value)} required/>
-                        
-                        <label htmlFor="destQueryInput">Destination:</label>
-                        <input id="destQueryInput" value={destQuery} onChange={e => setDestQuery(e.target.value)} required/>
+                        <td class="input">
+                            <label>Leaving from: </label>
+                            <input id="queryInput" placeholder="airport code" value={query} onChange={e => setQuery(e.target.value)} required/>
+                        </td>
+                        <td class="input">
+                            <label>Going to: </label>
+                            <input id="destQueryInput" placeholder="airport code" value={destQuery} onChange={e => setDestQuery(e.target.value)} required/>
+                        </td>
                     </tr>
                     <tr>
-                        <label htmlFor="outDate">Departure Date:</label>
-                        <input type="date" id="outDate" value={outDate} onChange={e => setOutDate(e.target.value)}></input>
-                        <label htmlFor="inDate">Return Date:</label>
-                        <input type="date" id="inDate" value={inDate} onChange={e => setInDate(e.target.value)}></input>
+                        <td class="input">
+                            <label htmlFor="outDate">Departing: </label>
+                            <input type="date" id="outDate" value={outDate} onChange={e => setOutDate(e.target.value)}></input>
+                        </td>
+                        <td class="input">
+                            <label htmlFor="inDate">Returning: </label>
+                            <input type="date" id="inDate" value={inDate} onChange={e => setInDate(e.target.value)}></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="input">
+                            <label>Currency: </label>
+                            <Currency currencies={currencies}></Currency>
+                        </td>
                     </tr>
                 </table>
-                <Currency currencies={currencies}></Currency>
-                <button className="search">Submit</button>
+                <button className="search">Search</button>
            </form>
-           { showFlights ? <Flights flights={flights} places={places}></Flights> : <></>}
+           <Flights flights={flights} places={places} currencies={currencies} currCurrency={currCurrency}></Flights>
         </div>
     )
 }

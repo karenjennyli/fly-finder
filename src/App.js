@@ -7,7 +7,7 @@ import AirportInfo from './components/AirportInfo';
 function App() {
   return (
     <div className="App">
-      <Header title="Flight Info"></Header>
+      <Header title="Fly Finder"></Header>
       <AirportInfo></AirportInfo>
       <Footer title="2021"></Footer>
     </div>

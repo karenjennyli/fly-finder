@@ -11,5 +11,13 @@ td, th {
     padding: 0.5rem;
     text-align: left;
 }
-  
-  
+
+.input {
+    border: 0px;
+    padding: 0.5;
+    text-align: left;
+}
+
+.flightResults {
+    width: 100%;
+}
