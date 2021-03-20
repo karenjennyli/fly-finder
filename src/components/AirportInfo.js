@@ -14,6 +14,7 @@ function AirportInfo() {
     const [currCurrency, setCurrCurrency] = useState("")
     const [carriers, setCarriers] = useState([])
 
+    // get the available currencies from Skyscanner
     if (currencies.length === 0) {
         async function fetchCurrencies() {
             const reqOptions = {
@@ -24,16 +25,13 @@ function AirportInfo() {
                     "useQueryString": true
                 }
             }
-
             let response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/currencies", reqOptions)
             response = await response.json()
             for (let i = 0; i < currencies.length; i++) {
                 console.log(currencies[i].Code)
             }
-
             setCurrencies(response.Currencies)
         }
-
         fetchCurrencies()
     }
 
@@ -49,28 +47,19 @@ function AirportInfo() {
                 }
             }
 
-            // let responseOrigin = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?" + new URLSearchParams({query: query}), reqOptions)
-            // responseOrigin = await responseOrigin.json()
-            // let originId = responseOrigin.Places[0].PlaceId
-            // // loop through responseOrigin.Places array until get good length
-            // // console.log(originId)
-
-            // let responseDest = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?" + new URLSearchParams({query: destQuery}), reqOptions)
-            // responseDest = await responseDest.json()
-            // let destId = responseDest.Places[0].PlaceId
-            // // console.log(destId)
-
+            // get origin and destination input
             let originId = query.toUpperCase()
             let destId = destQuery.toUpperCase()
             console.log(originId, destId)
 
+            // get selected currency
             let s = document.getElementById("currencies")
             console.log(s)
             let value = s.options[s.selectedIndex].text
             setCurrCurrency(value)
             
+            // fetch quotes
             var response
-            // response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/USD/en-US/" + originId + "/" + destId + "/" + inDate + "?inboundpartialdate=2021-03-25", reqOptions)
             response = await fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/" + value + "/en-US/" + originId + "/" + destId + "/" + inDate + "?inboundpartialdate=" + outDate, reqOptions)
             response = await response.json()
             console.log(response)

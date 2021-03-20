@@ -1,5 +1,4 @@
 import React from 'react';
-// import './Flights.css';
 
 function Currency(props) {
     return(
